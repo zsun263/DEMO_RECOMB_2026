@@ -1,11 +1,11 @@
-# ADAPRE: Adaptive Penalties for INSPRE
+# ADAPRE: ADAptive Penalized inverse REgression
 
 This repository contains a demonstration of **ADAPRE** (ADAptive Penalized
 inverse REgression), a method for inferring gene regulatory networks from perturbation experiments with heterogeneous intervention strengths.
 
 ## Overview
 
-Traditional network inference methods like INSPRE apply uniform regularization penalties across all genes. However, real perturbation experiments often exhibit variable intervention strengths—some genes are perturbed more strongly than others. ADAPRE addresses this by introducing **adaptive row-wise penalties** that scale with estimated intervention strength, enabling more accurate network reconstruction.
+Real perturbation experiments often exhibit variable intervention strengths—some genes are perturbed more strongly than others. ADAPRE addresses this by introducing **adaptive row-wise penalties** that scale with estimated intervention strength, enabling more accurate network reconstruction.
 
 ## Repository Structure
 
@@ -47,7 +47,7 @@ inspre package (for network simulation and baseline comparison):
 # Install devtools if needed
 install.packages("devtools")
 
-# Install INSPRE from GitHub
+# Install inspre from GitHub
 devtools::install_github("brielin/inspre", INSTALL_opts = "--install-tests")
 ```
 
@@ -112,7 +112,7 @@ The scatter plot ([output/degree_vs_true_degree_best.png](output/degree_vs_true_
 - **x-axis**: True out-degree (number of regulated targets)
 - **y-axis**: Estimated out-degree
 - **Color**: Intervention strength group (stronger/weaker)
-- **Panels**: Comparison between INSPRE and ADAPRE
+- **Panels**: Comparison between inspre and ADAPRE
 
 Points closer to the diagonal (y=x) indicate better degree estimation. ADAPRE often shows tighter agreement, especially for genes with varying intervention strengths.
 
