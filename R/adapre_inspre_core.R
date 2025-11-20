@@ -235,7 +235,9 @@ inspre_worker <- function(X, W = NULL, rho = 1.0, lambda = 0.01,
     }
 
     if (wrong_way >= max_wrong_way) {
-      cat("L is inceasing, breaking and returning last U, V.\n")
+      if (verbose) {
+        cat("L is inceasing, breaking and returning last U, V.\n")
+      }
       break
     }
 

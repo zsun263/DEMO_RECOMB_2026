@@ -200,15 +200,16 @@ select_best_by_f1 <- function(res, G_true, thr = 0.001) {
 
 ## Baseline: inspre package fit_inspre_from_X (UV-like constraint)
 cat("\nFitting baseline inspre (package)...\n")
+# Suppress console output from inspre package
+sink(tempfile())
 fit_inspre_pkg <- inspre::fit_inspre_from_X(
   X = Y,
   targets = targets,
   weighted = TRUE,
   verbose = 0
 )
+sink()
 eval_inspre <- evaluate_fit(fit_inspre_pkg, G)
-cat("inspre (baseline): best lambda = ", signif(eval_inspre$best_lambda, 3),
-    ", off-diag corr(G, R_hat) = ", signif(eval_inspre$corr, 3), "\n", sep = "")
 
 ## ADAPRE, UV constraint (our implementation with adaptive lambda)
 cat("\nFitting ADAPRE (UV, adaptive lambda)...\n")
@@ -221,8 +222,6 @@ fit_adapre <- fit_inspre_from_X(
   adaptive_lambda = TRUE
 )
 eval_adapre <- evaluate_fit(fit_adapre, G)
-cat("ADAPRE (UV): best lambda = ", signif(eval_adapre$best_lambda, 3),
-    ", off-diag corr(G, R_hat) = ", signif(eval_adapre$corr, 3), "\n", sep = "")
 
 ## CHECK RESULTS (UV only)
 
@@ -245,9 +244,8 @@ print(summary_table)
 write.csv(summary_table, file.path(output_dir, "summary_best_f1.csv"), row.names = FALSE)
 
 ## Compare adaptive vs baseline networks (best-F1 lambda)
-cat("\n[1] Correlation between inspre and ADAPRE networks (best F1, UV):\n")
-corr_uv_adap <- cor(off_diag_vec(best_inspre$G_hat), off_diag_vec(best_adapre$G_hat))
-cat("  corr(inspre, ADAPRE) = ", signif(corr_uv_adap, 3), "\n", sep = "")
+# Removed correlation print to reduce output clutter
+# corr_uv_adap <- cor(off_diag_vec(best_inspre$G_hat), off_diag_vec(best_adapre$G_hat))
 
 ## Degree vs true-degree plot for both (best-F1 lambda)
 deg_inspre_all <- build_degree_df(fit_inspre_pkg, G, int_beta, method_label = "inspre", thr = edge_thr)
